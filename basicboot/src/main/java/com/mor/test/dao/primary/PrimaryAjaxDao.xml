@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mor.test.dao.primary.PrimaryAjaxDao">
+	<insert id="insertAjaxTest">
+	<![CDATA[
+	INSERT INTO swncc_notice_tb (
+            id,
+            frm_cd,
+            title,
+            auth,
+            content,
+            url,
+            vwe_cd,
+            img_url,
+	    	img_nm,
+            hit_cnt,
+            reg_dt,
+            mod_dt
+        ) VALUES (
+            (SELECT NVL(MAX(id)+1,1) FROM SWNCC_NOTICE_TB),
+            #{frm_cd},
+            #{title},
+            #{auth},
+            #{content},
+            #{url},
+            #{vwe_cd},
+            #{img_url},
+	    	#{img_nm},
+            0,
+            TO_CHAR(SYSDATE, 'yyyymmddhh24miss'),
+            TO_CHAR(SYSDATE, 'yyyymmddhh24miss')
+        )
+	]]>
+	</insert> 
+	
+	<delete id="deleteAjaxTest">
+		DELETE FROM swncc_notice_tb WHERE id =#{id}
+	</delete>
+	
+	<update id="updateAjaxTest">
+	UPDATE swncc_notice_tb
+	SET
+	    <if test='no != null and no != ""'>no = #{no},</if>
+		<if test='frm_cd != null and frm_cd != ""'>frm_cd,</if>
+		<if test='img_url != null and img_url != ""'>img_url,</if>
+		<if test='nimg_nmo != null and img_nm != ""'>img_nm,</if>
+		<if test='mn_tle != null and nmn_tleo != ""'>mn_tle,</if>
+		<if test='sb_tle != null and sb_tle != ""'>sb_tle,</if>
+		<if test='vwe_cd != null and vwe_cd != ""'> vwe_cd,</if>
+		mod_dt=TO_CHAR(SYSDATE, 'yyyymmddhh24miss')
+	WHERE id = #{id}
+	</update>
+	
+	<select id="getAjaxTest">
+	<![CDATA[
+		SELECT
+		    id,
+		    no,
+		    frm_cd,
+		    img_url,
+		    img_nm,
+		    mn_tle,
+		    sb_tle,
+		    vwe_cd,
+		    mod_dt,
+		    reg_dt
+		FROM swncc_notice_tb
+		where id = #{id}
+    ]]>
+	</select>
+	<select id="listAjaxTest" resultType="hashmap">
+	<![CDATA[
+		SELECT
+	            ROWNUM no,
+	            id,
+			    title,
+			    auth,
+			    url,
+			    vwe_cd,
+			    img_url,
+	    		img_nm,
+			    NVL(hit_cnt,0) hit_cnt,
+			    to_char(to_date(reg_dt,'yyyymmddhh24miss'),'yyyy.MM.dd') reg_dt,
+			    mod_dt,
+			    frm_cd
+		FROM swncc_notice_tb
+	]]>	
+	</select>
+</mapper>

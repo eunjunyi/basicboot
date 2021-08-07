@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mor.test.sess.login.dao.LoginMapper">
+	 <select id="getSelectMeberInfo" parameterType="String" resultType="com.mor.test.session.vo.SessionDto">
+		/* 회원정보조회 */
+        SELECT 
+	        USERID as id
+	        , USERID as username
+	        , PASSWORD as password
+	        , MEMBER_NAME as memberName
+			, USER_ROLE as userRole
+        FROM SECURITY_MEMBER
+   		WHERE USERID = #{userId}
+    </select>
+    
+	<update id="setUpdatePasswordLockCnt" parameterType="String">
+ 		/*비밀번호 틀린 횟수 증가*/
+ 		UPDATE SECURITY_MEMBER 
+        SET
+      		PASSWORD_LOCK = ifnull(PASSWORD_LOCK, 0) + 1
+        WHERE
+      		USERID = #{userId}
+	</update>
+
+	<update id="setUpdatePasswordLockCntReset" parameterType="String">
+ 		/*비밀번호 틀린 횟수 초기화*/
+ 		UPDATE SECURITY_MEMBER 
+        SET
+      		PASSWORD_LOCK = 0
+        WHERE
+      		USERID = #{userId}
+	</update>
+
+	<insert id="setInsertLoginLog" parameterType="com.mor.test.sess.vo.LoginLog">
+		/* 로그인 로그 */
+		INSERT INTO SECURITY_MEMBER_LOG
+			(
+				 ID /* 아이디 */
+				, LOGIN_IP /* 로그인 아이피 */
+				, LOGIN_DATE /* 로그인 날짜 */
+				, STATUS /*성공여부*/
+			)
+		VALUES
+			(
+			 #{userId}
+				, #{loginIp}
+	            , date_format(now( ), '%Y-%m-%d %H:%i:%s' ) 
+	            , #{status}
+			)
+	</insert>
+	
+	
+	<insert id="setInsertMember" parameterType="com.mor.test.session.vo.SessionDto">
+		/*회원 가입*/
+		INSERT INTO SECURITY_MEMBER
+			(
+				, USERID /* 아이디 */
+				, PASSWORD /* 비밀번호 */
+				, MEMBER_NAME /* 이름 */
+				, USER_ROLE /* 권한 */
+		  		, EMAIL /* 이메일 */ 
+				, PASSWORD_LOCK /* 비밀번호 틀린 횟수 */
+				, PASSWORD_CHG_DATE /* 비밀번호 변경일자 */
+				, REG_DATE /* 등록일 */
+				, MOD_DATE /* 수정일 */
+				, STATUS /* 회원상태 */
+			)
+		VALUES 
+			( 
+				 #{userId}
+				, #{password}
+				, #{memberName}
+				, #{userRole}
+				, #{email}
+				, 0
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+	            , TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+				, 'O'
+			)
+	</insert>
+	
+</mapper>

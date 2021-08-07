@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    
+    <settings>
+        <setting name="cacheEnabled" value="false" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="defaultExecutorType" value="REUSE" />
+        <setting name="jdbcTypeForNull" value="NULL"/>                       <!--  Property 의 값이 null 일때 NULL 삽입 -->
+        <setting name="mapUnderscoreToCamelCase" value="true" />              <!-- db column 의 xx_yy 형식을 camelCase xxYY 형식으로 자동 매핑 -->
+        <setting name="callSettersOnNulls" value="true" />   <!-- 처리결과가 null 이면 문자 nul처리-->
+    </settings>
+	
+	 <!-- <typeHandlers>
+		<typeHandler handler="mgtacct.core.dao.util.MgtAcctTypeHandler" javaType="java.lang.String"/>
+	</typeHandlers>  -->
+	 
+</configuration>
