@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
     "classpath:/settlement.yml",
     "classpath:/settlement-${spring.profiles.active}.yml"
 })
- */
+ */   
 //@ConfigurationProperties(prefix = "settlement", locations = "classpath:/settlement.yml)
 
 @Component
