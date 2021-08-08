@@ -10,7 +10,7 @@ public class Test {
 		 * Thread.sleep(20000); } catch (InterruptedException e) { // TODO
 		 * Auto-generated catch block e.printStackTrace(); } }
 		 */
-		System.out.println("rwrqwrw");
+		System.out.println("rwrqwrw_야호 부자됩시다 당연히");
 		
 	}
 	
